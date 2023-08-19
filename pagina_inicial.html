@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Página Inicial</title>
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Adicione o plugin Chart.js datalabels -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+ <style>
+  body {
+    background-color: #1C1C1C;
+    font-family: Arial, sans-serif;
+    background-image: linear-gradient(90deg, #f72585, #720048);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    border-radius: 25px;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.header {
+    background-color: #f72585;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    border-radius: 25px;
+    margin-top: 10px;
+}
+
+.dashboard {
+    background-color: #ffffff;
+    width:1450px;
+    margin-top: 10px;
+    height: 3300px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    overflow-wrap: break-word;
+
+}
+
+.reminders {
+    width: 350px;
+    height: 350px;
+    position: relative;
+    background-color: #f72585;
+    border-radius: 25px;
+    padding: 20px;
+    overflow-wrap: break-word;
+    font-family: 'Comic sans';
+
+    border: 1px solid #1C1C1C;
+    color: #000000;
+    object-fit: cover;
+    border-radius: 25px;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    overflow-y: auto;
+    font-weight: bold;
+}
+
+.reminders h3 {
+    color: #ffffff;
+    border-radius: 25px;
+    font-family: 'Comic sans';
+    font-weight: bold;
+}
+
+.reminders ul {
+    background: #f72585;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: 'Comic sans';
+    border-radius: 25px;
+    margin-top: 10px;
+    font-weight: bold;
+
+}
+
+.reminders li {
+    color: #000000;
+    background-color: #ffb3ec;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 25px;
+    font-family: 'Comic sans';
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    font-weight: bold;
+    font-align: center;
+}
+
+.reminders .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-family: 'Comic sans';
+    font-weight: bold;
+}
+
+.reminders .actions form {
+    display: inline;
+    font-family: 'Comic sans';
+}
+
+.reminders .actions button[type="submit"] {
+    background-color: #720048;
+    border: none;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Comic sans';
+}
+
+.reminders .actions button[type="submit"]:hover {
+    background-color: #f72585;
+    font-family: 'Comic sans';
+}
+.menu {
+  background: linear-gradient(to right, #ff00cc, #ff0066);
+  margin-top:10px;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Comic sans';
+  font-size:14px;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+  font-weight: bold;
+  font-align: center;
+  position: sticky;
+  border-radius: 25px;
+}
+
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 25px;
+}
+
+.menu li {
+  display: inline-block;
+  margin-right: 20px;
+  border-radius: 25px;
+}
+
+.menu a {
+  position: relative;
+  color:#fff;
+  text-decoration: none;
+  font-size: 22px;
+  padding: 10px;
+  transition: color 0.3s ease;
+  border-radius: 25px;
+}
+
+.menu a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #FF00FF, #fff);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 25px;
+}
+
+.menu a:hover {
+  color: #ff00cc;
+}
+
+.menu a:hover:before {
+  opacity: 1;
+}
+
+.abc{
+  background-color: #ffffff;
+  border: none;
+ 
+  position:right;
+  color: black;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold; 
+
+}
+/* Estilo da tabela */
+.tabeladash {
+  width: 100%;
+  height:300px;
+  margin-left:500px;
+  margin-top:-350px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Estilo do cabeçalho */
+.tabeladash th {
+  background-color: #ffcccc; /* Rosa claro */
+  color: #000; /* Texto branco */
+  padding: 10px;
+  text-align: left;
+}
+
+/* Estilo das células da tabela */
+.tabeladash td {
+  border: 1px solid #ddd; /* Borda cinza clara */
+  padding: 8px;
+}
+
+/* Estilo das linhas ímpares */
+.tabeladash tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Cinza claro */
+}
+
+/* Estilo das células da última linha (Total) */
+.tabeladash td:last-child {
+  font-weight: bold;
+  background-color: #ff9999; /* Rosa mais escuro */
+  color: #000; /* Texto branco */
+}
+
+/* Estilo das células da última coluna (Totais) */
+.tabeladash tr:last-child td {
+  font-weight: bold;
+}
+
+/* Estilo do texto em rosa */
+.pink-text {
+  color: #ff6666; /* Rosa médio */
+}
+
+
+/* Estilo da tabela */
+.tabeladash1 {
+  width: 100%;
+  height:300px;
+
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Estilo do cabeçalho */
+.tabeladash1 th {
+  background-color: #ffcccc; /* Rosa claro */
+  color: #000; /* Texto branco */
+  padding: 10px;
+  text-align: left;
+}
+
+/* Estilo das células da tabela */
+.tabeladash1 td {
+  border: 1px solid #ddd; /* Borda cinza clara */
+  padding: 8px;
+}
+
+/* Estilo das linhas ímpares */
+.tabeladash1 tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Cinza claro */
+}
+
+/* Estilo das células da última linha (Total) */
+.tabeladash1 td:last-child {
+  font-weight: bold;
+  background-color: #ff9999; /* Rosa mais escuro */
+  color: #000; /* Texto branco */
+}
+
+/* Estilo das células da última coluna (Totais) */
+.tabeladash1 tr:last-child td {
+  font-weight: bold;
+}
+
+/* Estilo do texto em rosa */
+.pink-text {
+  color: #ff6666; /* Rosa médio */
+}
+
+
+/* Estilo da tabela */
+.tabeladash2 {
+  width: 100%;
+  height:300px;
+  margin-left:700px;
+  margin-top:-300px;
+
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Estilo do cabeçalho */
+.tabeladash2 th {
+  background-color: #ffcccc; /* Rosa claro */
+  color: #000; /* Texto branco */
+  padding: 10px;
+  text-align: left;
+}
+
+/* Estilo das células da tabela */
+.tabeladash2 td {
+  border: 1px solid #ddd; /* Borda cinza clara */
+  padding: 8px;
+}
+
+/* Estilo das linhas ímpares */
+.tabeladash2 tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Cinza claro */
+}
+
+/* Estilo das células da última linha (Total) */
+.tabeladash2 td:last-child {
+  font-weight: bold;
+  background-color: #ff9999; /* Rosa mais escuro */
+  color: #000; /* Texto branco */
+}
+
+/* Estilo das células da última coluna (Totais) */
+.tabeladash2 tr:last-child td {
+  font-weight: bold;
+}
+
+/* Estilo do texto em rosa */
+.pink-text {
+  color: #ff6666; /* Rosa médio */
+}
+.suspensa {
+  position: absolute;
+  top: 220px; /* Ajuste conforme necessário */
+  left: 1070px; /* Ajuste conforme necessário */
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+}
+
+</style>
+
+
+</head>
+<body>
+  <div class="header">
+    <h1>Dashboard Pimenta Rosa</h1>
+    <div class="abc"><a href="/logout">Deslogar</a></div>
+  </div>
+  <div class="menu">
+    <ul>
+      <li><a href="/financeiro">Financeiro</a></li>
+      <li><a href="/cadastroproduto">Estoque</a></li>
+      <li><a href="/estoque">Gestão do Estoque</a></li>
+      <li><a href="/vendas">Vendas</a></li>
+      <li><a href="/cadastroproduto">Cadastrar Produto</a></li>
+      <li><a href="/projecao">Projeção</a></li>
+      <li><a href="/cadastrocliente">Cadastrar Cliente</a></li>
+      <li><a href="/encomendas">Encomendas</a></li>
+      <li><a href="/receber_valores">Receber</a></li>
+    </ul>
+  </div>
+
+  <div class="dashboard">
+    <h2>Bem-vindo(a) {{ username }} à página inicial!</h2>
+    <label><strong>No Gráfico de Pizza mostra a quantidade de produtos vendidos por mês:</strong></label>
+    <!-- Gráfico de Vendas Mensais -->
+    <div class="chart-container" style="position: relative; height: 360px; width: 360px;">
+      <canvas id="estoqueGrafico"></canvas>
+    </div>
+    <div class="tabeladash">
+      <table>
+        <thead>
+          <tr>
+            <th>Disponibilidade</th>
+            <th>Quantidade</th>
+            <th>Custo da Peça</th>
+            <th>Valor Final</th>
+            <th>Lucro</th>
+          </tr>
+        </thead>
+        <tbody>
+  {% for row in tabela_geral %}
+    <tr>
+      <td>{{ row[0] }}</td>
+      <td>{{ row[1] }}</td>
+      <td>{{ row[2] }}</td>
+      <td>{{ row[3] }}</td>
+      <td>{{ row[4] }}</td>
+  
+    </tr>
+  {% endfor %}
+  <tr>
+    <td><strong>Total</strong></td>
+    <td><strong>{{ disponibilidade_total }}</strong></td>
+    <td><strong>{{ total_custo }}</strong></td>
+    <td><strong>{{ total_final }}</strong></td>
+    <td><strong>{{ total_lucro }}</strong></td>
+  </tr>
+</tbody>
+      </table>
+      
+
+    </div>  
+<br><br><br>
+    <!-- Gráfico Lucro  margin-left:400px; margin-top:-320px; -->
+    <div class="chart-container" style="position: left; height: 300px; width: 800px;">
+      <canvas id="lucroGrafico"></canvas>
+    </div>
+
+        <!-- Gráfico de Barras (Faturamento) -->
+        <div class="chart-container" style="position: relative; height: 300px; width: 800px;">
+          <canvas id="faturamentoGrafico"></canvas>
+        </div>
+
+    <!-- Gráfico de Barras (Despesa) -->
+    <div class="chart-container" style="position: relative; height: 300px; width: 800px;">
+      <canvas id="despesaGrafico"></canvas>
+    </div>
+
+    <div class="tabeladash1">
+      <table>
+        <thead>
+          <tr>
+            <th>Disponibilidade</th>
+            <th>Quantidade</th>
+            <th>Custo da Peça</th>
+            <th>Valor Final</th>
+            <th>Lucro</th>
+          </tr>
+        </thead>
+        <tbody>
+  {% for row in pizza_dash %}
+    <tr>
+      <td>{{ row[0] }}</td>
+      <td>{{ row[1] }}</td>
+      <td>{{ row[2] }}</td>
+      <td>{{ row[3] }}</td>
+      <td>{{ row[4] }}</td>
+  
+    </tr>
+  {% endfor %}
+
+</tbody>
+      </table>
+      
+
+    </div>  
+    <div class="tabeladash2">
+      <table>
+        <thead>
+          <tr>
+            <th>Disponibilidade</th>
+            <th>Quantidade</th>
+            <th>Custo da Peça</th>
+            <th>Valor Final</th>
+            <th>Lucro</th>
+          </tr>
+        </thead>
+        <tbody>
+  {% for row in pizza_dash_vendido %}
+    <tr>
+      <td>{{ row[0] }}</td>
+      <td>{{ row[1] }}</td>
+      <td>{{ row[2] }}</td>
+      <td>{{ row[3] }}</td>
+      <td>{{ row[4] }}</td>
+  
+    </tr>
+  {% endfor %}
+ 
+ 
+</tbody>
+      </table>
+      
+
+    </div>  
+
+
+  </div>
+
+
+    <div class="sales-chart" style="width: 400px; height: 300px;">
+      {{ script|safe }}
+      {{ div|safe }}
+    </div>
+    
+    <!-- Campo de lembretes -->
+<!-- Campo de lembretes -->
+<div class="suspensa">
+<div class="reminders">
+  <h3>Lembretes:  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNoteModal">
+    Inserir Anotação
+  </button></h3>
+  
+  {% if anotacoes %}
+    <ul>
+      {% for anotacao in anotacoes %}
+      <li>
+        <span class="anotacao-nome" style="background-color: #FF3E96; border-radius: 5px; width:auto;">  {{ anotacao[1] }} :</span>
+        <span class="anotacao-notas"><font "Comic Sans">{{ anotacao[2] }}</font></span><br>
+        <span class="anotacao-data"><u><i><font size="2px"> Postagem: {{ anotacao[3] }}</font></i></u></span>
+        <span class="anotacao-status"><u><i><font size="2px">Status: {{ anotacao[4] }}</font></i></u></span>
+        <div class="actions">
+          
+            <input type="hidden" name="nome" value="{{ anotacao[1] }}">
+            <input type="hidden" name="notas" value="{{ anotacao[2] }}">
+            <input type="hidden" name="status" value="{{ anotacao[4] }}">
+            <button type="submit" class="btn btn-link" data-toggle="modal" data-target="#editNoteModal{{ anotacao[0] }}">Editar</button>
+          
+          <form action="/excluir_anotacao/{{ anotacao[0] }}" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-link">Excluir</button>
+          </form>
+          <form action="/alterar_status_anotacao/{{ anotacao[0] }}" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-link">Alterar Status</button>
+          </form>
+        </div>
+        {% endfor %}
+      </li>
+
+      {% for anotacao in anotacoes %}
+      <!-- Modal para editar anotação -->
+      <div class="modal fade" id="editNoteModal{{ anotacao[0] }}" tabindex="-1" role="dialog" aria-labelledby="editNoteModalLabel{{ anotacao[0] }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editNoteModalLabel{{ anotacao[0] }}">Editar Anotação</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/editar_anotacao/{{ anotacao[0] }}" method="POST">
+                <div class="form-group">
+                  <label for="nome">Nome:</label>
+                  <input type="text" class="form-control" id="nome" name="nome" value="{{ anotacao[1] }}" required>
+                </div>
+                <div class="form-group">
+                  <label for="notas">Notas:</label>
+                  <textarea class="form-control" id="notas" name="notas" rows="3" required>{{ anotacao[2] }}</textarea>
+                </div>
+                <div class="form-group">
+                  <label for="status{{ anotacao[0] }}">Status:</label>
+                  <input type="checkbox" id="status{{ anotacao[0] }}Pendente" name="status" value="Pendente" {% if anotacao[4] == 'Pendente' %}checked{% endif %}>
+                  <label for="status{{ anotacao[0] }}Pendente">Pendente</label>
+                  <input type="checkbox" id="status{{ anotacao[0] }}Concluido" name="status" value="Concluido" {% if anotacao[4] == 'Concluido' %}checked{% endif %}>
+                  <label for="status{{ anotacao[0] }}Concluido">Concluído</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nenhum lembrete encontrado.</p>
+  {% endif %}
+</div>
+</div>
+    <!-- Modal para inserir anotação -->
+    <div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addNoteModalLabel">Inserir Anotação</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/inserir_anotacao" method="POST">
+              <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome" value={{username}} required>
+              </div>
+              <div class="form-group">
+                <label for="notas">Notas:</label>
+                <textarea class="form-control" id="notas" name="notas" rows="3" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="status">Status:</label>
+                <input type="checkbox" id="status" name="status" value="Pendente">
+                <label for="status">Pendente</label>
+                <input type="checkbox" id="status" name="status" value="Concluido" >
+                <label for="status">Concluído</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Inserir</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    
+
+
+  </div>
+</body>
+
+<script>
+  // Dados do gráfico de pizza
+  var estoqueData = {
+    labels: [{% for row in tabel_pizza %}"{{ row[0] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os nomes dos produtos reais
+    datasets: [{
+      data: [{% for row in tabel_pizza %}"{{ row[2] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com a quantidade real de cada produto em estoque
+      backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)'],
+    }],
+  };
+
+  // Opções do gráfico de pizza
+  var estoqueOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  // Criação do gráfico de pizza
+  var ctxEstoque = document.getElementById('estoqueGrafico').getContext('2d');
+  var estoqueGrafico = new Chart(ctxEstoque, {
+    type: 'pie',
+    data: estoqueData,
+    options: estoqueOptions,
+  });
+</script>
+
+
+<script>
+  // Dados do gráfico de barras (Lucro)
+  var lucroData = {
+    labels: [{% for row in tabel_pizza %}"{{ row[0] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os meses reais
+    datasets: [{
+      label: 'Lucro',
+      backgroundColor: 'rgba(75, 192, 192, 0.8)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1,
+      data: [{% for row in tabel_pizza %}"{{ row[5] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os valores reais de lucro de cada mês
+    }],
+  };
+
+  // Opções do gráfico de barras (Lucro)
+  var lucroOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: function(value) {
+          return 'R$ ' + value; // Formatação dos valores (por exemplo, com R$)
+        },
+      },
+    },
+  };
+
+  // Criação do gráfico de barras (Lucro)
+  var ctxLucro = document.getElementById('lucroGrafico').getContext('2d');
+  var lucroGrafico = new Chart(ctxLucro, {
+    type: 'bar',
+    data: lucroData,
+    options: lucroOptions,
+    plugins: [ChartDataLabels], // Adicione o plugin Chart.js datalabels
+  });
+</script>
+
+
+<script>
+  // Dados do gráfico de barras (Despesa)
+  var despesaData = {
+    labels: [{% for row in tabel_pizza1 %}"{{ row[0] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os meses reais
+    datasets: [{
+      label: 'Despesa dos Produtos',
+      backgroundColor: 'rgba(178,34,34, 0.8)',
+      borderColor: 'rgba(178,34,34, 1)',
+      borderWidth: 1,
+      data: [{% for row in tabel_pizza1 %}"{{ row[3] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os valores reais de despesa de cada mês
+    }],
+  };
+
+  // Opções do gráfico de barras (Despesa)
+  var despesaOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: function(value) {
+          return 'R$ ' + value; // Formatação dos valores (por exemplo, com R$)
+        },
+      },
+    },
+  };
+
+  // Criação do gráfico de barras (Despesa)
+  var ctxDespesa = document.getElementById('despesaGrafico').getContext('2d');
+  var despesaGrafico = new Chart(ctxDespesa, {
+    type: 'bar',
+    data: despesaData,
+    options: despesaOptions,
+    plugins: [ChartDataLabels], // Adicione o plugin Chart.js datalabels
+  });
+</script>
+<script>
+  // Dados do gráfico de barras (Despesa)
+  var faturamentoData = {
+    labels: [{% for row in tabel_pizza %}"{{ row[0] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os meses reais
+    datasets: [{
+      label: 'Faturamento',
+      backgroundColor: 'rgba(50,205,50, 0.8)',
+      borderColor: 'rgba(50,205,50, 1)',
+      borderWidth: 1,
+      data: [{% for row in tabel_pizza %}"{{ row[4] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os valores reais de despesa de cada mês
+    }],
+  };
+
+  // Opções do gráfico de barras (Despesa)
+  var faturamentoOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: function(value) {
+          return 'R$ ' + value; // Formatação dos valores (por exemplo, com R$)
+        },
+      },
+    },
+  };
+
+  // Criação do gráfico de barras (Despesa)
+  var ctxFaturamento  = document.getElementById('faturamentoGrafico').getContext('2d');
+  var faturamentoGrafico = new Chart(ctxFaturamento, {
+    type: 'bar',
+    data: faturamentoData,
+    options: faturamentoOptions,
+    plugins: [ChartDataLabels], // Adicione o plugin Chart.js datalabels
+  });
+</script>
+</html>

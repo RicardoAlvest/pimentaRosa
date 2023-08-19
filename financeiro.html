@@ -1,0 +1,719 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Financeiro</title>
+    
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Adicione o plugin Chart.js datalabels -->
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    
+        <script>
+            // Função para abrir o modal de edição
+            function openEditModal(id, nome, descricao, quantidade) {
+                $('#editModal input[name="id"]').val(id);
+                $('#editModal input[name="nome"]').val(nome);
+                $('#editModal input[name="descricao"]').val(descricao);
+                $('#editModal input[name="quantidade"]').val(quantidade);
+                $('#editModal').modal('show');
+            }
+    
+            // Função para fechar o modal de edição
+            function closeEditModal() {
+                $('#editModal').modal('hide');
+            }
+    
+            // Função para enviar o formulário de edição
+           // Função para enviar o formulário de edição
+    function submitEditForm() {
+        const form = $('#editForm');
+        const url = '/atualizar_dados_financeiro'; // Rota no servidor Flask para atualizar os dados
+        const formData = form.serialize();
+
+        $.post(url, formData)
+            .done(function(response) {
+                if (response.success) {
+                    alert('Registro atualizado com sucesso!');
+                    location.reload();
+                } else {
+                    alert('Erro ao atualizar registro.');
+                }
+            })
+            .fail(function() {
+                alert('Erro ao atualizar registro.');
+            });
+    }
+</script>
+
+    <style>
+        body {
+            background-color: #1C1C1C;
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(90deg, #f72585, #720048);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+            border-radius: 25px;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #f72585;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            font-size: 24px;
+            border-radius: 50%;
+            z-index: 9999;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        #scroll-to-top:hover {
+            opacity: 0.7;
+        }
+
+        .Campopesquisa {
+            background-color: #f72585;
+            color: #ffffff;
+            padding: 20px;
+            text-align: left;
+            position: sticky;
+            border-radius: 25px;
+            margin-top: 10px;
+        }
+
+        .campodashbord{
+            background-color: #fff;
+            color: #ffffff;
+            padding: 20px;
+            text-align: left;
+            position: sticky;
+            border-radius: 25px;
+            margin-top: 10px;
+        }
+
+        .header {
+            background-color: #f72585;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            border-radius: 25px;
+            margin-top: 10px;
+        }
+
+        .dashboard {
+            background-color: #ffffff;
+            margin-top: 10px;
+            height: 620px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 25px;
+            overflow-wrap: break-word;
+        }
+
+        input[type=text] {
+            width: 300px;
+            height: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            color: black;
+            border-color: white;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            overflow-y: auto;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .edit-button,
+        .delete-button {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .inserir_encom{
+            background-color: #ffffff;
+            border: none;
+            position: right;
+            color: black;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        a {
+            background-color: #ffffff;
+            border: none;
+            position: right;
+            color: black;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        button{
+            background-color: #FF69B4;
+            border: none;
+            position: right;
+            color: black;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+}
+
+        .insert-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .search-box {
+            margin-bottom: 16px;
+        }
+
+        /* Estilos para o Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Estilo da tabela */
+.tabeladash {
+  width: auto;
+  height:auto;
+ 
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Estilo do cabeçalho */
+.tabeladash th {
+  background-color: #ffcccc; /* Rosa claro */
+  color: #000; /* Texto branco */
+  padding: 10px;
+  text-align: left;
+}
+
+/* Estilo das células da tabela */
+.tabeladash td {
+  border: 1px solid #ddd; /* Borda cinza clara */
+  padding: 8px;
+}
+
+/* Estilo das linhas ímpares */
+.tabeladash tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Cinza claro */
+}
+
+/* Estilo das células da última linha (Total) */
+.tabeladash td:last-child {
+  font-weight: bold;
+  background-color: #ff9999; /* Rosa mais escuro */
+  color: #000; /* Texto branco */
+}
+
+/* Estilo das células da última coluna (Totais) */
+.tabeladash tr:last-child td {
+  font-weight: bold;
+}
+
+/* Estilo do texto em rosa */
+.pink-text {
+  color: #ff6666; /* Rosa médio */
+}
+
+
+
+
+
+    </style>
+ 
+        </head>
+        <body>
+            <div class="header">
+                <h1>Financeiro</h1>
+            </div>
+            <a href="/pagina_inicial">Voltar a Pagina Inicial</a>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNoteModal">
+                    Inserir Despesa
+                  </button></h3>
+            </td>
+
+            <td>
+              <a href="/projecao">(Projeção) Inserir Descontos</a>
+                </h3>
+          </td>
+          <td>
+            <a href="/receber_valores">Valores a Receber </a>
+              </h3>
+        </td>
+        <td>
+          <a href="/vendas">Pagina de Vendas</a>
+            </h3>
+      </td>
+          <br>
+
+
+      <div class="tabeladash">
+        <table id="invertedTable">
+          <tbody>
+
+            {{ table | safe }}
+  </tbody>
+        </table>
+       
+        
+  
+      </div>  
+
+    <!-- Gráfico de Pizza (Despesa) -->
+    <div class="campodashbord">
+      <div class="chart-container" style="position: relative; color: black; height: 400px; width: 600px;">
+        <canvas id="despesaGrafico"></canvas>
+        </div>
+
+        <br>
+
+
+
+
+          <!-- Gráfico Despesa margin-left:400px; margin-top:-320px; -->
+    <div class="chart-container" style="position: left; height: 300px; width:auto;">
+        <canvas id="lucroGrafico"></canvas>
+      </div>
+
+    </div>  
+        <br>
+        <div class="Campopesquisa">
+            <h3>Filtro:
+                <input type="text" id="search-input" placeholder="Pesquisar por descrição" onkeyup="search()">
+            </h3>
+        </div>
+        <br>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Classificação</th>
+                        <th>Grupo</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Valor</th>
+                        <th>Conclusão</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Corrigindo o loop para receber as variáveis do template -->
+                    {% for rowa in finan %}
+                    <tr>
+                        <td>{{ rowa[0] }}</td>
+                        <td>{{ rowa[1] }}</td>
+                        <td>{{ rowa[2] }}</td>
+                        <td>{{ rowa[3] }}</td>
+                        <td>{{ rowa[4] }}</td>
+                        <td>{{ rowa[5] }}</td>
+                        <td>{{ rowa[6] }}</td>
+        
+                        <td>
+                            <form action="/alterar_status_despesa/{{ rowa[0] }}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-link">Alterar Status</button>
+                            </form>
+                            <button type="submit" class="btn btn-link" data-toggle="modal" data-target="#editNoteModal{{ rowa[0] }}">Editar</button>
+                            <form action="/excluir_despesa/{{ rowa[0] }}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-link">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}   
+                </tbody>
+            </table>
+            <div class="sales-chart" style="width: 400px; height: 300px;">
+                {{ script|safe }}
+                {{ div|safe }}
+            </div>
+            {% for rowa in finan %}
+            <!-- Modal de Edição -->
+            <div class="modal fade" id="editNoteModal{{ rowa[0] }}" tabindex="-1" role="dialog" aria-labelledby="editNoteModalLabel{{ rowa[0] }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="editNoteModalLabel{{ rowa[0] }}">Editar Despesa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/editar_financeiro/{{ rowa[0] }}" method="POST" id="editForm">
+                                <div class="form-group">
+                                    <label for="classificacao">Classificação:</label>
+                                    <select name="classificacao" class="form-control" id="classificacao" name="classificacao" required>
+                                        <option value="{{ rowa[1] }}">{{ rowa[1] }}</option>
+                                        <option value="DESPESA FIXA">Despesa Fixa</option>
+                                        <option value="DESPESA VARIAVEL">Despesa Variavel</option>
+                                    </select><br>
+                                
+                                </div>
+                                <div class="form-group">
+                                    <label for="grupo">Grupo De Despesa</label>
+                                    <select name="grupo"class="form-control" id="grupo" name="grupo">
+                                        <option value="{{ rowa[2] }}">{{ rowa[2] }}</option>
+                                        <option value="ENERGIA">Energia</option>
+                                        <option value="MARKETING">Marketing</option>
+                                        <option value="ALUGUEL">Aluguel</option>
+                                        <option value="LIMPEZA">Limpeza</option>
+                                        <option value="CONTA DE INTERNET">Conta de Internet</option>
+                                        <option value="FORNECEDOR">Fornecedor</option>
+                                        <option value="AGUA">Agua</option>
+                                        <option value="INSUMOS MANUTENCAO">Insumos Manutenção</option>
+                                        <option value="COMIDA">Comida</option>
+                                        <option value="INVESTIMENTO">Invenstimento</option>
+                                        <option value="CAFE">Cafe</option>
+                                        <option value="SACOLA">Sacola</option>
+                                        <option value="TAG">TAG</option>
+                                        <option value="DEMAIS DESPESAS">Demais despesas</option>
+                                    </select><br>
+                                
+                                
+                                </div>
+                                <div class="form-group">
+                                    <label for="descricao">Descrição:</label>
+                                    <input type="text" class="form-control" id="descricao" name="descricao" value="{{ rowa[3] }}"required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data">Data:</label>
+                                    <input type="text" class="form-control" id="data" name="data" value="{{ rowa[4] }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="valor">Valor:</label>
+                                    <input type="text" class="form-control" id="valor" name="valor" value="{{ rowa[5] }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Status:</label>
+
+                                    <select name="status" class="form-control" id="status" name="status" >
+                                        <option value="{{ rowa[5] }}">{{ rowa[6] }}</option>
+                                        <option value="PAGO">Pago</option>
+                                        <option value="PENDENTE">Pendente</option>                    
+                                    </select><br>
+                                
+                                </div>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- Modal de Inserção -->
+    <div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addNoteModalLabel">Inserir Anotação</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+              <h2>Inserir Despesa</h2>
+
+                    
+              <form id="insertForm" action="/inserir_despesa" method="POST">
+                <label for="classificacao">Classificação</label>
+                <select name="classificacao">
+                    <option value="DESPESA FIXA">Despesa Fixa</option>
+                    <option value="DESPESA VARIAVEL">Despesa Variavel</option>
+                </select><br>
+                <label for="grupo">Grupo De Despesa</label>
+                <select name="grupo">
+                    <option value=""></option>
+                    <option value="ENERGIA">Energia</option>
+                    <option value="MARKETING">Marketing</option>
+                    <option value="ALUGUEL">Aluguel</option>
+                    <option value="LIMPEZA">Limpeza</option>
+                    <option value="CONTA DE INTERNET">Conta de Internet</option>
+                    <option value="FORNECEDOR">Fornecedor</option>
+                    <option value="AGUA">Agua</option>
+                    <option value="INSUMOS MANUTENCAO">Insumos Manutenção</option>
+                    <option value="COMIDA">Comida</option>
+                    <option value="INVESTIMENTO">Invenstimento</option>
+                    <option value="CAFE">Cafe</option>
+                    <option value="SACOLA">Sacola</option>
+                    <option value="TAG">TAG</option>
+                    <option value="DEMAIS DESPESAS">Demais despesas</option>
+                </select><br>
+                          
+                <label for="descricao">Descrição:</label>
+                <input type="text" name="descricao" required><br>
+                   
+                <label for="data">Data:</label>
+                <input type="datetime-local" name="data" required><br>
+
+                <label for="valor">Valor:</label>
+                <input type="text" name="valor" required><br>
+
+                <label for="status">Status:</label>
+                <select name="status">
+                    <option value="PAGO">Pago</option>
+                    <option value="PENDENTE">Pendente</option>                    
+                </select><br>     
+
+          
+                <button type="submit">Inserir</button>
+              </form>
+                </div>
+            </div>
+            
+            <a href="#" id="scroll-to-top" title="Ir para o topo">▲</a>
+        </body>
+        <script>
+            
+                // Função para abrir o Modal de Inserção
+                function openInsertModal() {
+                    var modal = document.getElementById("insertModal");
+                    modal.style.display = "block";
+                }
+            
+                // Função para fechar o Modal de Inserção
+                function closeInsertModal() {
+                    var modal = document.getElementById("insertModal");
+                    modal.style.display = "none";
+                }
+            
+                // Função para enviar o formulário de inserção
+                function submitInsertForm() {
+                    var form = document.getElementById("insertForm");
+                    form.submit();
+                }
+            
+                // Resto do código...
+            </script>
+            <script>
+                // Função de pesquisa
+                function search() {
+                  var input, filter, table, tr, td, i, txtValue;
+                  input = document.getElementById("search-input");
+                  filter = input.value.toUpperCase();
+                  table = document.getElementById("data-table");
+                  tr = table.getElementsByTagName("tr");
+          
+                  for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[3]; // Índice 1 representa a coluna do Nome
+                    if (td) {
+                      txtValue = td.textContent || td.innerText;
+                      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                      } else {
+                        tr[i].style.display = "none";
+                      }
+                    }
+                  }
+                }
+
+
+
+
+            
+        </script>
+
+    <script>    
+        // Dados do gráfico de barras (Despesa)
+  var despesaData = {
+    labels: [{% for row in rowa %}"{{ row[2] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os meses reais
+    datasets: [{
+      label: 'Despesa',
+      backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)', 'rgba(85, 142, 132, 0.8)', 'rgba(87, 122, 182, 0.8)', 'rgba(97, 102, 162, 0.8)'],
+      borderWidth: 1,
+      data: [{% for row in rowa %}"{{ row[5] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os valores reais de despesa de cada mês
+    }],
+  };
+
+  // Opções do gráfico de barras (Despesa)
+  var despesaOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: function(value) {
+          return 'R$ ' + value; // Formatação dos valores (por exemplo, com R$)
+        },
+      },
+    },
+  };
+
+  // Criação do gráfico de barras (Despesa)
+  var ctxDespesa = document.getElementById('despesaGrafico').getContext('2d');
+  var despesaGrafico = new Chart(ctxDespesa, {
+    type: 'pie',
+    data: despesaData,
+    options: despesaOptions,
+    plugins: [ChartDataLabels], // Adicione o plugin Chart.js datalabels
+  });
+</script>
+
+<script>
+
+    var lucroData = {
+        labels: [{% for row in rowa2 %}"{{ row[4] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os meses reais
+        datasets: [{
+          label: 'Despesa Mensal',
+          backgroundColor: 'rgba(255,0,0, 0.8)',
+          borderColor: 'rgba(139,0,0, 1)',
+          borderWidth: 1,
+          data: [{% for row in rowa2 %}"{{ row[5] }}"{% if not loop.last %}, {% endif %}{% endfor %}], // Substitua com os valores reais de lucro de cada mês
+        }],
+      };
+// Opções do gráfico de barras (despesa)
+  var lucroOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: function(value) {
+          return 'R$ ' + value; // Formatação dos valores (por exemplo, com R$)
+        },
+      },
+    },
+  };
+
+  // Criação do gráfico de barras (Lucro)
+  var ctxLucro = document.getElementById('lucroGrafico').getContext('2d');
+  var lucroGrafico = new Chart(ctxLucro, {
+    type: 'bar',
+    data: lucroData,
+    options: lucroOptions,
+    plugins: [ChartDataLabels], // Adicione o plugin Chart.js datalabels
+  });
+</script>
+
+
+<script>
+  const originalTable = document.getElementById("originalTable");
+  const invertedTable = document.getElementById("invertedTable");
+
+  for (let i = 0; i < originalTable.rows[0].cells.length; i++) {
+      const newRow = invertedTable.insertRow();
+      newRow.insertCell().textContent = originalTable.rows[0].cells[i].textContent;
+      
+      for (let j = 1; j < originalTable.rows.length; j++) {
+          newRow.insertCell().textContent = originalTable.rows[j].cells[i].textContent;
+      }
+  }
+</script>
+
+
+
+
+
+
+
+        </html>
+        

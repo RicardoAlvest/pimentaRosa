@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Painel de Vendas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+    
+   
+  
+  
+    <script>
+        $(function (){
+            $(".btn-toggle").click(function(e){
+                e.preventDefault();
+                el = $(this).data('element');
+                $(el).toggle();
+            });
+        });
+
+        function mostrarConfirmacao() {
+            var resposta = confirm("Deseja continuar?");
+            if (resposta) {
+                alert("Você escolheu SIM!");
+            } else {
+                alert("Você escolheu NÃO!");
+            }
+        }
+
+
+
+    </script>
+ 
+  
+     
+    <style>
+
+      body {
+        background-color: #1C1C1C;
+        font-family: Arial, sans-serif;
+        background-image: linear-gradient(90deg, #f72585, #720048);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+        border-radius: 25px;
+    }
+    
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+    
+        50% {
+            background-position: 100% 50%;
+        }
+    
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    #scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background-color: #f72585;
+      color: white;
+      text-align: center;
+      line-height: 40px;
+      font-size: 24px;
+      border-radius: 50%;
+      z-index: 9999;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    #scroll-to-top:hover {
+      opacity: 0.7;
+    }
+    
+
+    .Campopesquisa{
+      background-color: #f72585;
+      width:620px;
+      height:auto;
+      margin-top:10px;
+      color: #ffffff;
+      padding: 20px;
+      text-align: left;
+      position: sticky;
+      border-radius: 25px;
+      
+
+    }
+    
+    .minhaDiv {
+        background-color: #f72585;
+        color: #ffffff;
+        width:750px;
+        margin-left:690px;
+        margin-top:-220px;
+        height:auto;
+        padding: 20px;
+        text-align: center;
+        border-radius: 25px;
+        
+    }
+    .header {
+      background-color: #f72585;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      border-radius: 25px;
+      margin-top: 10px;
+  }
+    .dashboard {
+        background-color: #ffffff;
+        margin-top: 10px;
+        height: 620px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+        overflow-wrap: break-word;
+    
+    }
+    input[type=text]{
+      width:300px;
+      height:30px;
+    }
+
+    #header {
+      display: none;
+    }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        color:black;
+        border-color:white;
+        background:white;
+        border-radius: 25px;
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        overflow-y: auto; 
+      }
+      
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      
+      .edit-button, .delete-button {
+        background-color: #f44336;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      a{
+        background-color: #ffffff;
+        border: none;
+       
+        position:right;
+        color: black;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold; 
+
+      }
+      button[type=button]{
+        background-color: #ffffff;
+        border: none;
+       
+        position:right;
+        color: black;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold;
+
+
+
+      }
+      .valorfina{
+        background-color:#808080;
+        width:auto;
+        text-align:center;
+        font-size: 24px;
+      
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold;
+
+
+
+      }
+      .insert-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+       margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px; font-size: 14px;
+        
+      }
+      button[type=submit]{
+        background-color: #f44336;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+
+
+
+      }
+      input[type=text]{
+        width:300px;
+        height:30px;
+        font-weight: bold;
+        font-family: 'Verdana';
+        font-size:17px;
+      }
+      .search-box {
+        margin-bottom: 16px;
+      }
+      
+      /* Estilos para o Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+      }
+      
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+   
+
+       .botoes {
+        background-color: #ffffff;
+        border: none;       
+        position:right;
+        color: black;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold;
+
+       } 
+       .estilodocarrinho{
+
+        background-color:A9A9A9;   
+        position:right;
+        width:auto;
+        
+      }
+
+        .estilodocarrinho input[type="radio"],
+        .estilodocarrinho input[type="text"],
+        .estilodocarrinho label {
+            margin-bottom: 10px;
+        }
+    
+        .estilodocarrinho label {
+            display: inline-block;
+            width: auto;
+            font-weight: bold;
+        }
+    
+        .estilodocarrinho input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            transition: border-color 0.3s ease;
+        }
+    
+        .estilodocarrinho input[type="text"]:focus {
+            border-color: #555;
+        }
+    
+        .estilodocarrinho input[type="radio"] {
+            display: none;
+        }
+    
+        .estilodocarrinho input[type="radio"] + label {
+            position: relative;
+            padding-left: 25px;
+            cursor: pointer;
+        }
+    
+        .estilodocarrinho input[type="radio"] + label:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            background-color: #fff;
+            transition: background-color 0.3s ease;
+        }
+    
+        .estilodocarrinho input[type="radio"]:checked + label:before {
+            background-color: #555;
+            border-color: #555;
+        }
+    
+        .estilodocarrinho button[type="submit"] {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        .estilodocarrinho button[type="submit"]:hover {
+            background-color: #333;
+        }
+    
+        .popup {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #ffffff;
+          border: 1px solid #cccccc;
+          padding: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      
+      .popup p {
+          margin: 0 0 10px;
+      }
+      
+      .popup button {
+          padding: 5px 10px;
+          background-color: #cccccc;
+          border: none;
+          color: #ffffff;
+          cursor: pointer;
+      }
+      
+      
+    </style>
+</head>
+
+<body onload="minhaFuncao()">
+  
+  <div class="header"><h1>Painel de Vendas</h1></div>
+  <a href="/pagina_inicial">Voltar à Página Inicial</a> 
+  <a href="/projecao"><font color="Green"><strong>Projeção(Vendas Realizadas)</strong></font></a>
+  <a href="/financeiro">Financeiro</a>
+  <button type="button" class="btn-toggle" data-element="#minhaDiv">Mostrar / Esconder Carrinho de Compra</button>
+
+  <div class="Campopesquisa">
+      <h3>Filtro Descrição:
+          <input type="text" id="search-input" placeholder="Pesquisar por descrição" onkeyup="search()">
+      </h3>
+      <br>
+      <h3>Filtro Fornecedor
+          <input type="text" id="search-input_fornecedor" placeholder="Pesquisar por Fornecedor" onkeyup="searchfornecedor()">
+      </h3>
+  </div>
+  <br>
+  
+  <div class="minhaDiv" id="minhaDiv">
+      <h1>Carrinho de Compras
+
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  <ul class="flash-messages">
+                      {% for message in messages %}
+                          <li>{{ message }}</li>
+                      {% endfor %}
+                  </ul>
+              {% endif %}
+          {% endwith %}
+      </h1>
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <div class="alert">
+                  {% for message in messages %}
+                      <p>{{ message }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      {% endwith %}
+
+      <br>
+      <table>
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Descrição</th>
+                  <th>Disponibilidade</th>
+                  <th>Valor Final</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for produto in carrinho %}
+              <tr>
+                  <td><span>{{ produto[0] }}</span></td>
+                  <td>{{ produto[1] }}</td>
+                  <td>{{ produto[2] }}</td>
+                  <td>{{ produto[3] }}</td>
+              </tr>
+              {% endfor %}
+              <!-- Adicione o botão de finalizar venda -->
+              <tr>
+                  <td colspan="2">
+                      <form action="/finalizarvenda" method="post">
+                          {% for produto in carrinho %}
+                          <input type="hidden" name="produto_ids[]" value="{{ produto[0] }}">
+                          {% endfor %}
+
+                          <div class="estilodocarrinho">
+                              <br>
+                              <strong> 
+                              <input type="radio" id="tipodevenda_areceber" name="statusdavenda" value="RECEBER">
+                              <label for="tipodevenda_areceber"> <font color="Red"size="3px"><strong>Venda a Receber (Pagamento não realizado)</strong></font></label><br>
+                              <input type="radio" id="cadastrocli" name="cadastrarcliente">
+                              <label for="cadastrocli"> Incluir cliente no Cadastro</label><br>
+
+                              <label for="desconto">Desconto:</label>
+
+                              <input type="text" id="desconto" name="desconto">
+
+                              <br>
+                              <label for="nomedavenda">Cliente:</label>
+
+                              <input type="text" id="nomedavenda" name="nome_cliente">
+                              <br>
+                              <label for="cpfdavenda">CPF:   </label>
+
+                              <input type="text" id="cpfdavenda" name="cpf_cliente">
+                              <br>
+                              <label for="telefonedavenda">Telefone:  </label>
+
+                              <input type="text" id="telefonedavenda" name="telefonedavenda1">
+                              <br>
+
+                              <input type="radio" id="cartaocredito" name="tipo_pagamento" value="Cartao">
+                              <label for="cartaocredito">Cartão de Crédito   </label><br>
+                              <input type="radio" id="dinheiro" name="tipo_pagamento" value="Dinheiro">
+                              <label for="dinheiro">Dinheiro</label>    <br>
+                              <input type="radio" id="pixtransferencia" name="tipo_pagamento" value="Pix/Transferencia">
+                              <label for="pixtransferencia">Pix/Transferência</label>
+                              <br>
+                              <button type="submit">Finalizar Venda</button>
+                          </form></strong>
+                      </div>
+                      {% set soma = 0.0 %}
+
+                      {% for produto in carrinho %}
+                          {% set valor_produto = produto[3] | float %}
+                          {% set soma = soma + valor_produto %}
+                      {% endfor %}
+
+                      <div class="valorfina"><label for="somatorio_valor_final">Valor Total: {{ valor_total}}</label>
+                      <br><font size="1"> Obs: Valor do desconto não está inserido nesse valor total.</font></div>
+
+
+                  </td>
+              </tr>
+          </tbody>
+
+      </table>
+      <div class="botoes">
+          <!-- Adicione o botão de limpar carrinho -->
+          <form action="/limparcarrinho" method="post">
+              <button type="submit">Limpar Carrinho</button>
+          </form>
+      </div>
+  </div> <!-- div final do carrinho de compra abaixo botao pesquisa-->
+
+  <br>
+
+  <table id="data-table">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Fornecedor</th>
+              <th>Código</th>
+              <th>Descrição</th>
+      <th>Tamanho</th>
+      <th>Cor</th>
+      <th>Disponibilidade</th>
+      <th>Desconto</th>
+      <th>Valor Venda</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for row in vendas %}
+  <tr>
+      <td>{{ row[0] }}</td>
+      <td>{{ row[1] }}</td>
+      <td>{{ row[2] }}</td>
+      <td>{{ row[3] }}</td>
+      <td>{{ row[4] }}</td>
+      <td>{{ row[5] }}</td>
+      <td>{{ row[15] }}</td>
+      <td>{{ row[24] }}</td>
+      <td>{{ row[25] }}</td>
+      <td>
+          <form action="/adicionar_ao_carrinho" method="post">
+              <input type="hidden" name="produto_id" value="{{ row[0] }}">
+              <input type="hidden" name="descricao" value="{{ row[3] }}">
+              <input type="hidden" name="disponibilidade" value="{{ row[15] }}">
+              <input type="hidden" name="valor_final" value="{{ row[25] }}">
+              <input type="hidden" name="valor_custo" value="{{ row[10] }}">
+              <button type="submit">Adicionar ao Carrinho</button>
+          </form>
+      </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+
+  <script>
+  // Função de pesquisa
+  function search() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("search-input");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("data-table");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[3]; // Índice 1 representa a coluna do Nome
+      if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+      } else {
+          tr[i].style.display = "none";
+      }
+      }
+  }
+  }
+
+  // Função de pesquisa
+  function searchfornecedor() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("search-input_fornecedor");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("data-table");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1]; // Índice 1 representa a coluna do Nome
+      if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+      } else {
+          tr[i].style.display = "none";
+      }
+      }
+  }
+  }
+  // Função para rolar suavemente até o topo da página
+  function scrollToTop() {
+  window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+  });
+  }
+
+  // Exibir ou ocultar a flecha de rolagem dependendo da posição da página
+  function toggleScrollToTop() {
+  var scrollToTopButton = document.getElementById('scroll-to-top');
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      scrollToTopButton.style.display = 'block';
+  } else {
+      scrollToTopButton.style.display = 'none';
+  }
+  }
+
+  // Evento para clicar na flecha de rolagem
+  document.getElementById('scroll-to-top').addEventListener('click', scrollToTop);
+
+  // Evento para exibir ou ocultar a flecha de rolagem ao rolar a página
+  window.onscroll = function() {
+  toggleScrollToTop();
+  };
+
+  </script>
+  <a href="#" id="scroll-to-top" title="Ir para o topo">▲</a>
+
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Projeção de Vendas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Adicione o plugin Chart.js datalabels -->
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  
+
+    <style>
+
+      body {
+        background-color: #1C1C1C;
+        font-family: Arial, sans-serif;
+        background-image: linear-gradient(90deg, #f72585, #720048);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+        border-radius: 25px;
+    }
+    
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+    
+        50% {
+            background-position: 100% 50%;
+        }
+    
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    #scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background-color: #f72585;
+      color: white;
+      text-align: center;
+      line-height: 40px;
+      font-size: 24px;
+      border-radius: 50%;
+      z-index: 9999;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    #scroll-to-top:hover {
+      opacity: 0.7;
+    }
+    
+
+    .Campopesquisa{
+      background-color: #f72585;
+      color: #ffffff;
+      padding: 20px;
+      text-align: left;
+      position: sticky;
+      border-radius: 25px;
+      margin-top: 10px;
+
+    }
+    
+    .header {
+        background-color: #f72585;
+        color: #ffffff;
+        padding: 20px;
+        text-align: center;
+        position: sticky;
+        border-radius: 25px;
+        margin-top: 10px;
+    }
+    
+    .dashboard {
+        background-color: #ffffff;
+        margin-top: 10px;
+        height: 620px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+        overflow-wrap: break-word;
+    
+    }
+    input[type=text]{
+      width:300px;
+      height:30px;
+    }
+
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        color:black;
+        border-color:white;
+        background:white;
+        border-radius: 25px;
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        overflow-y: auto; 
+      }
+      
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      
+      .edit-button, .delete-button {
+        background-color: #f44336;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      a{
+        background-color: #ffffff;
+        border: none;
+       
+        position:right;
+        color: black;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold; 
+
+      }
+      .insert-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      
+      .search-box {
+        margin-bottom: 16px;
+      }
+      
+      /* Estilos para o Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+      }
+      
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .popup p {
+        margin: 0 0 10px;
+    }
+    
+    .popup button {
+        padding: 5px 10px;
+        background-color: #cccccc;
+        border: none;
+        color: #ffffff;
+        cursor: pointer;
+    }
+    .chart-container{
+      background-color: #FF69B4;
+      width:auto;
+      border: 1px solid #cccccc;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        border-radius: 4px;
+
+
+    }
+    a {
+      background-color: #ffffff;
+      border: none;
+      position: right;
+      color: black;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+  }
+  button{
+      background-color: #FF69B4;
+      border: none;
+      position: right;
+      color: black;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+}
+
+  .red-text {
+      color: red;
+      font-weight: bold;
+  }
+  .green-text {
+    color: green;
+    font-weight: bold;
+}
+.orange-text {
+  color: orange;
+  font-weight: bold;
+}
+
+    </style>
+</head>
+<body>
+  
+  <div class="header"><h1>Projeção de Vendas</h1></div>
+  <a href="/pagina_inicial">Voltar a Pagina Inicial</a> 
+  <a href="/financeiro">Pagina Financeiro</a>
+  <a href="/vendas">Pagina Vendas</a>
+  <td>
+    <a href="/receber_valores">Valores a Receber </a>
+      </h3>
+</td>
+  <br> 
+  
+   <!-- Gráfico de Barras -->
+   <div class="chart-container" style="position: relative; height:40vh; width:auto;">
+    <canvas id="meuGrafico"></canvas>
+    </div>
+    <div class="Campopesquisa">
+      <h3>Filtro:
+      <input type="text" id="search-input" placeholder="Pesquisar por Nome do cliente" onkeyup="search()"></h3>
+      <br>
+  </div>
+  <br>
+  <table id="data-table">
+      <thead>
+          <tr>
+              <th>MES</th>
+              <th>ID</th>
+              <th>Data da Venda</th>
+              <th>Forma de Pagamento</th>              
+              <th>Desconto</th>
+              <th>Valor da Venda</th>            
+              <th>Status da Venda</th>
+              <th>Baixa no sistema</th>
+              <th>Desconto Extra</th>
+              <th>Nome</th>
+              
+          </tr>
+      </thead>
+      <tbody>
+          {% for row in projecao %}
+          <tr>
+              <td>{{ row[3] }}</td>
+              <td>{{ row[1] }}</td>
+              <td>{{ row[2] }}</td>            
+              <td>{{ row[5] }}</td>                         
+              <td>{{ row[7] }}</td>
+              <td>{{ row[4] }}</td>
+              <td>{{ row[8] }}</td>
+              <td>{{ row[10] }}</td>
+              <td>{{ row[11] }}</td>
+              <td>{{ row[6] }}</td>
+              
+              <td>
+                  
+              </td>
+              <td>
+                <form action="/alterar_baixa_projecao/{{ row[1] }}" method="post" style="display: inline;">
+                  <button type="submit" class="btn btn-link">BAIXAR</button>
+              </form>
+                <form action="/alterar_status_projecao/{{ row[1] }}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-link">	AVISTA</button>
+                </form> 
+                <form action="/alterar_status_projecao_receber/{{ row[1] }}" method="post" style="display: inline;">
+                  <button type="submit" class="btn btn-link">	RECEBER</button>
+              </form> 
+               
+                <button type="submit" class="btn btn-link" data-toggle="modal" data-target="#editNoteModal{{ row[1] }}">DEMAIS DESCONTO</button>
+                
+            </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  {% for row in projecao %}
+  <!-- Modal de Edição -->
+  <div class="modal fade" id="editNoteModal{{ row[1] }}" tabindex="-1" role="dialog" aria-labelledby="editNoteModalLabel{{ row[1] }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editNoteModalLabel{{ row[1] }}">Inserir Desconto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/editar_desconto/{{ row[1] }}" method="POST" id="editForm">
+                    <div class="form-group">
+                        <label for="ID"><strong>ID VENDA: </strong>{{ row[1] }}</label><br>
+                        <label for="VALOR_PAGO"><strong>VALOR PAGO:</strong> {{ row[4] }}</label><br>
+                        <label for="DATA DA VENDA"><strong>DATA DA VENDA: </strong>{{ row[2] }}</label><br>
+                        <label for="NOME"><strong>NOME CLIENTE:</strong>{{ row[6] }}</label><br>
+                        <label for="desconto_extra"><strong>Desconto:</strong></label>
+                        <input type="text" class="form-control" id="desconto_extra" name="desconto_extra" value="{{ row[11] }}"required><br><br>
+                        <label for="aviso"><strong>Para centavos utilize o ponto " . " Exemplo: 5.59</strong></label><br>
+                        
+                          </div>
+                          <button type="submit" class="btn btn-primary">Salvar</button>
+                        </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                            {% endfor %}                         
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Encontra todas as células da tabela que contêm a palavra "pendente"
+        var cells = document.querySelectorAll("td");
+        for (var i = 0; i < cells.length; i++) {
+            if (cells[i].textContent.trim() === "Pendente") {
+                cells[i].classList.add("red-text"); // Adiciona a classe CSS
+            }
+        }
+    });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // Encontra todas as células da tabela que contêm a palavra "pendente"
+      var cells = document.querySelectorAll("td");
+      for (var i = 0; i < cells.length; i++) {
+          if (cells[i].textContent.trim() === "Baixado") {
+              cells[i].classList.add("green-text"); // Adiciona a classe CSS
+          }
+      }
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // Encontra todas as células da tabela que contêm a palavra "pendente"
+      var cells = document.querySelectorAll("td");
+      for (var i = 0; i < cells.length; i++) {
+          if (cells[i].textContent.trim() === "RECEBER") {
+              cells[i].classList.add("orange-text"); // Adiciona a classe CSS
+          }
+      }
+  });
+</script>
+
+
+  <script>
+      // Dados do gráfico
+      var data = {
+        labels: [{% for row in dados_vendas_por_mes %}"{{ row[1] }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+        datasets: [{
+            label: 'Vendas por Mês R$',
+            backgroundColor: 'rgba(0,100,0, 0.2)',
+            borderColor: 'rgba(0,100,0, 1)',
+            borderWidth: 1,
+            data: [{% for row in dados_vendas_por_mes %}{{ row[2] }}{% if not loop.last %}, {% endif %}{% endfor %}],
+        },
+        {
+            label: 'Quantidade de Vendas',
+            backgroundColor: '#000',
+            borderColor: '#000',
+            borderWidth: 3,
+            data: [{% for row in dados_vendas_por_mes %}{{ row[0] }}{% if not loop.last %}, {% endif %}{% endfor %}],
+            type: 'line', // Definindo o tipo de gráfico como linha
+          }]
+    };
+
+ // Opções do gráfico
+ var options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+      y: {
+          beginAtZero: true
+      }
+  }
+};
+
+// Criação do gráfico de barras
+var ctx = document.getElementById('meuGrafico').getContext('2d');
+var meuGrafico = new Chart(ctx, {
+  type: 'bar',
+  data: data,
+  options: options
+});
+
+  </script>
+
+    <script>
+      // Função de pesquisa
+      function search() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("search-input");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("data-table");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[3]; // Índice 1 representa a coluna do Nome
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+      // Função para rolar suavemente até o topo da página
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Exibir ou ocultar a flecha de rolagem dependendo da posição da página
+function toggleScrollToTop() {
+  var scrollToTopButton = document.getElementById('scroll-to-top');
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    scrollToTopButton.style.display = 'block';
+  } else {
+    scrollToTopButton.style.display = 'none';
+  }
+}
+
+// Evento para clicar na flecha de rolagem
+document.getElementById('scroll-to-top').addEventListener('click', scrollToTop);
+
+// Evento para exibir ou ocultar a flecha de rolagem ao rolar a página
+window.onscroll = function() {
+  toggleScrollToTop();
+};
+
+    </script>
+    <a href="#" id="scroll-to-top" title="Ir para o topo">▲</a>
+
+</body>
+</html>

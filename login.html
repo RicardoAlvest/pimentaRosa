@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #1C1C1C;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+        input[type=text]{
+            width:300px;
+            height:30px;
+            font-weight: bold;
+            font-family: 'Verdana';
+            font-size:17px;
+        }  
+        input[type=password]{
+            width:300px;
+            height:30px;
+            font-weight: bold;
+            font-family: 'Verdana';
+            font-size:17px;
+        }   
+
+        .container {
+            background-color: black;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff00ff;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        form input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid #ff00ff;
+            color: #ff00ff;
+            padding: 10px 2x0px;
+            margin-bottom: 20px;
+            width: 100%;
+            outline: none;
+            transition: border-bottom-color 0.3s ease-in-out;
+        }
+
+        form input:focus {
+            border-bottom-color: #ff00ff;
+        }
+
+        button {
+            background-color: #ff00ff;
+            border: none;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #d600d6;
+        }
+        .error-message {
+            background-color: #ff00ff;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .titulo {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: pink;
+            text-align: center;
+            font-family: Snell Roundhand, cursive, fantasy;
+            margin: 0;
+            font-size: 50px;
+        }
+    </style>
+    <script>
+        // Função para fechar o pop-up de erro
+        function closeErrorMessage() {
+            var errorElement = document.getElementById('error-message');
+            errorElement.style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        {% if error_message %}
+        <div class="error-message" id="error-message">
+            {{ error_message }}
+            <button onclick="closeErrorMessage()">Fechar</button>
+        </div>
+        {% endif %}
+        <form method="POST">
+            <input type="text" placeholder="Username" name="username" required><br>
+            <input type="password" placeholder="Password" name="password" required><br>
+            <button type="submit" value="Login">Login</button>
+        </form>
+    </div>
+    <div class="titulo">
+       Pagina de Acesso - Pimenta Rosa
+    </div>
+</body>
+</html>

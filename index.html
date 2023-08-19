@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loja de Roupas Íntimas</title>
+    <style>
+        :root {
+          --white: #f8f8f8;
+          --black: #222;
+          --salmon: #f1ab86;
+        }
+        
+        * {
+          padding: 0;
+          margin: 0;
+          box-sizing: border-box;
+        }
+        
+        a {
+          color: inherit;
+        }
+        
+        img {
+          max-width: 100%;
+          height: auto;
+        }
+        
+        body {
+          margin-top: 70px;
+          font: 20px/28px "Questrial", sans-serif;
+          color: var(--white);
+          background: var(--black);
+        }
+        
+        .section {
+          padding: 0 15px;
+        }
+        
+        .section-hero {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+        
+        .section-hero .h1 {
+          font-size: 20vmin;
+          line-height: 0.9;
+          font-weight: bold;
+          text-align: center;
+          text-shadow: 2px 2px 10px #1a1423;
+        }
+        
+        .section-hero .hero-title-clone {
+          position: absolute;
+          /* You can optionally apply 
+            initial top & left values
+            that will be overriden through JS */
+          /*top: 0;
+          left: 0;*/
+          color: var(--salmon);
+          /*z-index: 1;*/
+        }
+        
+        .section-hero .hero-img-wrapper {
+          position: relative;
+          margin-top: -10vh;
+          overflow: hidden;
+        }
+        
+        .section-hero .hero-img-wrapper img {
+          border-radius: 10px;
+        }
+        
+        .section-hero ~ .section {
+          position: relative;
+          z-index: 2;
+        }
+        
+        .section-text {
+          background: url(https://assets.codepen.io/162656/man-walking.jpg) no-repeat
+            fixed center right / cover;
+          margin-top: 20vh;
+        }
+        
+        .section-text::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(56, 36, 52, 0.5);
+        }
+        
+        .section-text div {
+          position: relative;
+          max-width: 700px;
+          padding: 100px 0;
+          margin: 0 auto;
+        }
+        
+        .section-text p {
+          margin-top: 20px;
+        }
+        
+        .section-last {
+          text-align: center;
+          padding: 15vh 15px;
+          font-size: 5vmin;
+          line-height: 1;
+          background: var(--black);
+        }
+        
+        .section-last p {
+          margin-top: 5px;
+        }
+        
+        .notification {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 10px;
+          background: #090909;
+        }
+        
+        .page-footer {
+          position: fixed;
+          right: 0;
+          bottom: 50px;
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          z-index: 2;
+          font-size: 16px;
+          color: var(--black);
+          background: var(--white);
+        }
+        
+        .page-footer a {
+          display: flex;
+          margin-left: 4px;
+        }
+        
+        .footer1 {
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          padding: 10px;
+          background-color: var(--salmon);
+          text-align: center;
+          color: var(--white);
+          font-weight: bold;
+        }
+    </style>
+    <script>
+        window.addEventListener("scroll", function () {
+          const sectionHero = document.querySelector(".section-hero");
+          const heroTitle = sectionHero.querySelector(".hero-title");
+          const heroTitleClone = sectionHero.querySelector(".hero-title-clone");
+          const heroImgWrapper = sectionHero.querySelector(".hero-img-wrapper");
+          const speed = 1.1;
+          
+          const { x: heroTitleX, y: heroTitleY } = heroTitle.getBoundingClientRect();
+          const { x: heroImgWrapperX, y: heroImgWrapperY } = heroImgWrapper.getBoundingClientRect();
+          
+          heroTitleClone.style.top = `${heroTitleY - getSpeed() - heroImgWrapperY}px`;
+          heroTitleClone.style.left = `${heroTitleX - heroImgWrapperX}px`;
+          
+          const speedTransform = `translateY(${getSpeed()}px)`;
+          heroTitle.style.transform = speedTransform;
+          heroTitleClone.style.transform = speedTransform;
+        });
+        
+        function getSpeed() {
+          return window.pageYOffset * 1.1;
+        }
+    </script>
+</head>
+<body>
+    <section class="section section-hero">
+        <h1 class="h1 hero-title">Pimenta Rosa</h1>
+        <div class="hero-img-wrapper">
+          <img width="1308" height="1220" src="Logo_pimenta_Rosa" alt="">
+          <div class="h1 hero-title-clone">
+            Pimenta Rosa
+          </div>
+        </div>
+    </section>
+
+    <section class="section section-text">
+        <div>
+          <h2>About Me</h2>
+          <p>You vexed shy mirth now noise. Talked him people valley add use her depend letter. Allowance too applauded now way something recommend. Mrs age men and trees jokes fancy. Gay pretended engrossed eagerness continued ten. Admitting day him contained unfeeling attention mrs out.</p>
+          <p>Meant balls it if up doubt small purse. Required his you put the outlived answered position. An pleasure exertion if believed provided to. All led out world these music while asked. Paid mind even sons does he door no. Attended overcame repeated it is perceive marianne in. In am think on style child of. Servants moreover in sensible he it ye possible.</p>
+          <p>An sincerity so extremity he additions. Her yet there truth merit. Mrs all projecting favourable now unpleasing. Son law garden chatty temper. Oh children provided to mr elegance marriage strongly. Off can admiration prosperous now devonshire diminution law.</p>
+          <p>Supplied directly pleasant we ignorant ecstatic of jointure so if. These spoke house of we. Ask put yet excuse person see change. Do inhabiting no stimulated unpleasing of admiration he. Enquire explain another he in brandon enjoyed be service. Given mrs she first china. Table party no or trees an while it since. On oh celebrated at be announcing dissimilar insipidity. Ham marked engage oppose cousin ask add yet.</p>
+        </div>
+    </section>
+
+    <section class="section section-last">
+        <h2>More hands-on tutorials <a href="https://tutsplus.com/authors/george-martsoukos" target="_blank">here</a></h2>
+        <p>Images from <a href="https://unsplash.com/" target="_blank">Unsplash</a></p>
+    </section>
+
+    <p class="notification">👇 Scroll Down</p>
+
+    <footer class="page-footer">
+        <span>made by </span>
+        <a href="https://georgemartsoukos.com/" target="_blank">
+          <img width="24" height="24" src="https://assets.codepen.io/162656/george-martsoukos-small-logo.svg" alt="George Martsoukos logo">
+        </a>
+    </footer>
+
+    <div class="footer1">
+        &copy; 2023 Loja de Roupas Íntimas. Todos os direitos reservados.
+    </div>
+</body>
+</html>
